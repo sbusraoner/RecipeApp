@@ -1,8 +1,9 @@
-package com.sbusraoner.recipeapp.data.network
+package com.sbusraoner.recipeapp.models
+
 
 import com.google.gson.annotations.SerializedName
-import com.sbusraoner.recipeapp.models.Result
-data class RootResponse(
+
+data class RecipeModel(
     @SerializedName("number")
     val number: Int?,
     @SerializedName("offset")
@@ -10,5 +11,11 @@ data class RootResponse(
     @SerializedName("results")
     val results: List<Result?>?,
     @SerializedName("totalResults")
-    val totalResults: Int?
+    val totalResults: Int?,
+    @SerializedName("status")
+    val status :String?,
+    @SerializedName("code")
+    val code :Int?,
+    @SerializedName("message")
+    val message:String?
 )
