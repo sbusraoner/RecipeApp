@@ -9,5 +9,5 @@ interface SpoonacularRepository {
 
     suspend fun getRecipesWithMealType(type:String) : Flow<ApiResult<RootResponse>>
 
-    suspend fun getRecipeWihtId(id:Int) : Flow<ApiResult<RootResponse>>
+    suspend fun getRecipeWihtId(id:Int) : Flow<ApiResult<DetailRootResponse>>
 }

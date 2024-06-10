@@ -1,5 +1,6 @@
 package com.sbusraoner.recipeapp.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -13,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sbusraoner.recipeapp.feature.detail.RecipeDetailScreen
 import com.sbusraoner.recipeapp.feature.home.HomeScreen
 import com.sbusraoner.recipeapp.feature.recipe_list.RecipeListScreen
+import com.sbusraoner.recipeapp.feature.search_screen.SearchScreen
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -43,9 +45,20 @@ fun RecipeSpoonacularNavGraph(
         composable(
             route = RecipeAppDestination.HOME
         ) {
-            HomeScreen {
-                navActions.navigateToRecipeList(it)
-            }
+            HomeScreen (
+                onCategoryClick = {
+                    navActions.navigateToRecipeList(it)
+                },
+                onClick = {
+                    navActions.navigateToSearchScreen()
+                }
+            )
+        }
+
+        composable(
+            route = RecipeAppDestination.SEARCH_SCREEN
+        ) {
+            SearchScreen(navController = navController)
         }
 
         composable(
@@ -53,18 +66,24 @@ fun RecipeSpoonacularNavGraph(
         ) {
             val type = it.arguments?.getString("type") ?: "sauce"
             RecipeListScreen(
-                type = type,
-            )
+                navController = navController,
+                type = type) {
+                navController.popBackStack()
+            }
         }
+
 
         composable(
             route = RecipeAppDestination.RECIPE_DETAIL
         ) {arguments ->
-            val id = arguments.arguments?.getInt("id") ?: 0
-            if(id != 0) {
-                RecipeDetailScreen(id = id, onRecipeClick = {
-                    navActions.navigateToRecipeDetail(id = it)
-                })
+            val id = arguments.arguments?.getString("id") ?: "0"
+
+            if(id.toInt() != 0) {
+                RecipeDetailScreen(id = id.toInt(), onRecipeClick = {
+                    navActions.navigateToRecipeDetail(id = id.toInt())
+                }) {
+                    navController.popBackStack()
+                }
             }
 
         }

@@ -21,6 +21,7 @@ class HomeViewModel @Inject constructor(
     fun getRecipeWithMealType(mealType: ArrayList<String>)  {
         val internetOnline = true
 
+
         viewModelScope.launch {
 
         }

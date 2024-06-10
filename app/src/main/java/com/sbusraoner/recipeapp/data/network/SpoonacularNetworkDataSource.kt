@@ -14,7 +14,7 @@ class SpoonacularNetworkDataSource @Inject constructor(
     override suspend fun getSearchRecipe(
         query: String
     ): Flow<ApiResult<RootResponse>> = apiFlow {
-        apiService.getSearchRecipe(Constants.API_KEY)
+        apiService.getSearchRecipe(query,Constants.API_KEY)
     }
 
 
@@ -26,8 +26,8 @@ class SpoonacularNetworkDataSource @Inject constructor(
 
     override suspend fun getRecipesWithId(
         id:Int
-    ): Flow<ApiResult<RootResponse>> = apiFlow {
-        apiService.getRecipesWithId(Constants.API_KEY,id)
+    ): Flow<ApiResult<DetailRootResponse>> = apiFlow {
+        apiService.getRecipesWithId(id,Constants.API_KEY)
     }
 
 }

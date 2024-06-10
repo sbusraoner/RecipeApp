@@ -46,11 +46,12 @@ class SpoonacularRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecipeWihtId(
-        id: Int) : Flow<ApiResult<RootResponse>>{
+        id: Int) : Flow<ApiResult<DetailRootResponse>>{
         val getRecipeWithIdResponse = networkDataSource.getRecipesWithId(id)
         getRecipeWithIdResponse.collect {value ->
             when (value) {
                 is ApiResult.Success -> {
+
                     // İlerde locale veriler burada kaydedilecek
                     //  localDataSource.insertCharacters(value.data?.toLocal().orEmpty())
                 }

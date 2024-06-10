@@ -9,7 +9,7 @@ interface NetworkDataSource {
 
     suspend fun getRecipesWithMealType(type:String) : Flow<ApiResult<RootResponse>>
 
-    suspend fun getRecipesWithId(id:Int) : Flow<ApiResult<RootResponse>>
+    suspend fun getRecipesWithId(id:Int) : Flow<ApiResult<DetailRootResponse>>
 
 
 }

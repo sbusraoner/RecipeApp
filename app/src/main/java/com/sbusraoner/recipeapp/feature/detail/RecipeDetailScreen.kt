@@ -1,9 +1,11 @@
 package com.sbusraoner.recipeapp.feature.detail
 
 import android.util.Log
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,19 +13,26 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.sbusraoner.recipeapp.R
+import com.sbusraoner.recipeapp.feature.components.CustomTopBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +40,8 @@ import coil.compose.AsyncImage
 fun RecipeDetailScreen(
     viewModel: RecipeDetailViewModel = hiltViewModel(),
     onRecipeClick: (Int) -> Unit,
-    id: Int
+    id: Int,
+    onBack : () -> Unit
 ) {
 
     val state = viewModel.uiState.collectAsState()
@@ -43,64 +53,90 @@ fun RecipeDetailScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = {
-                Text(text = state.value.recipeModel?.firstOrNull()?.title ?: "Title")
-            }
+            CustomTopBar(
+                text = state.value.recipeModel?.title ?: "Recipe Detail",
+                navigationIcon = Icons.Default.ArrowBack,
+                onNavigationClick = onBack
             )
         }
-
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-
-        ) {
+    ) {
+        Box {
             if (state.value.isLoading) {
-                Text(
-                    text = "Loading...",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } else {
+                Text(text = "Loading...",
+                    modifier = Modifier.align(Alignment.Center))
+            }
+            else {
                 if (state.value.isError) {
-                    Text(
-                        text = "Error",
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    Text(text = "Error",
+                        modifier = Modifier.align(Alignment.Center))
+                    Log.e("RecipeDetailScreen", "Error: ${state.value.errorMessage}")
                 }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
+                        .padding(16.dp)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    state.value.recipeModel?.let { recipe ->
+                        //Spacer(modifier = Modifier.height(20.dp))
+                        Text(
+                            text = recipe.title ?: "Recipe Detail",
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                        Text(
+                            text = "CuisinesType",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
 
-                    state.value.recipeModel?.forEach { recipe ->
-                        Card(
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        AsyncImage(
+                            model = recipe.image,
+                            contentDescription = null,
                             modifier = Modifier
-                                .padding(8.dp)
-                                .fillMaxWidth(0.8f)
-                                .clickable {
-                                    Log.e("BusraResponse", (recipe?.id ?: "bos").toString())
+                                .height(200.dp)
+                                .fillMaxWidth(),
+                            contentScale = ContentScale.Crop )
 
-                                }
-                        ) {
-                            Box(modifier = Modifier.padding(8.dp)) {
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                                Text(text = recipe?.title ?: "")
-                                Spacer(modifier = Modifier.height(8.dp))
-                                AsyncImage(model = recipe?.image ?: "", contentDescription = "image")
-
-
-
+                        Column {
+                            Text(
+                                text = "Ingredients",
+                                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            state.value.recipeModel?.ingredients?.forEach { ingredient ->
                             }
+                            IngredientItem("Butter", "50g")
+                            IngredientItem("Peanut Cookies", "175g")
+
                         }
-                    }
-                    state.value.errorMessage?.let{
-                        Log.e("BusraResponse",it ?: "error bos")
+                        Text(text = "Instructions:", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = recipe.summary ?: "No summary available" ,
+                            style = MaterialTheme.typography.bodyLarge)
                     }
                 }
             }
         }
     }
 
+
+
+}
+
+
+@Composable
+fun IngredientItem(name: String, quantity: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = name, style = MaterialTheme.typography.bodyLarge)
+        Text(text = quantity, style = MaterialTheme.typography.bodyLarge)
+    }
 }

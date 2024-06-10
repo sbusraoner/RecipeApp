@@ -15,7 +15,8 @@ import com.sbusraoner.recipeapp.feature.components.MySearchBar
 @Composable
 fun HomeScreen(
     viewModel : HomeViewModel = hiltViewModel(),
-    onCategoryClick: (String) -> Unit
+    onCategoryClick: (String) -> Unit,
+    onClick : () -> Unit
 ){
 
 
@@ -25,7 +26,7 @@ fun HomeScreen(
             .fillMaxSize()) {
             Log.d("HomeScreen", "HomeScreen:  ")
             Header()
-            MySearchBar()
+            MySearchBar(onClick = onClick)
             CategoryGrid(onCategoryClick = onCategoryClick)
         }
     }

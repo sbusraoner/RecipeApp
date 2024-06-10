@@ -24,9 +24,9 @@ fun <T> apiFlow(
                 Log.e("ApiFlow", "apiFlow c.body: ${c.body()}")
                 emit(ApiResult.Success(c.body()))
             } else {
-                val errorBody = c.errorBody()?.string()
-                val errorResponse = gson.fromJson(errorBody, ApiErrorResponse::class.java)
-                emit(ApiResult.Error(errorResponse.message ?: "Api response error"))
+                val errorBody = c.errorBody()
+              //  val errorResponse = gson.fromJson(errorBody, ApiErrorResponse::class.java)
+               // emit(ApiResult.Error(errorResponse.message ?: "Api response error"))
             }
         }
     } catch (e: Exception) {
@@ -42,10 +42,10 @@ sealed class ApiResult<out T> {
 }
 
 data class ApiErrorResponse(
-    @SerializedName("status")
-    val status :String?,
+    //@SerializedName("status")
+    //val status :String?,
     @SerializedName("code")
     val code :Int?,
-    @SerializedName("message")
-    val message:String?,
+ //   @SerializedName("message")
+   // val message:String?,
 )
