@@ -1,15 +1,20 @@
 package com.sbusraoner.recipeapp.di
 
-import com.sbusraoner.recipeapp.data.network.ApiService
-import com.sbusraoner.recipeapp.data.network.NetworkDataSource
-import com.sbusraoner.recipeapp.data.network.SpoonacularNetworkDataSource
-import com.sbusraoner.recipeapp.data.network.SpoonacularRepository
-import com.sbusraoner.recipeapp.data.network.SpoonacularRepositoryImpl
+import android.content.Context
+import androidx.room.Room
+import com.sbusraoner.recipeapp.data.source.network.ApiService
+import com.sbusraoner.recipeapp.data.source.network.NetworkDataSource
+import com.sbusraoner.recipeapp.data.source.network.SpoonacularNetworkDataSource
+import com.sbusraoner.recipeapp.data.SpoonacularRepository
+import com.sbusraoner.recipeapp.data.SpoonacularRepositoryImpl
+import com.sbusraoner.recipeapp.data.source.local.RecipesDao
+import com.sbusraoner.recipeapp.data.source.local.RecipesDataBase
 import com.sbusraoner.recipeapp.utils.Constants
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -61,5 +66,28 @@ abstract class RepositoryModule {
     abstract fun bindEdamamRepository(
         spoonacularRepositoryImpl: SpoonacularRepositoryImpl
     ): SpoonacularRepository
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class DataSourceModule {
+
+    @Provides
+    @Singleton
+    fun provideRecipesDao(database: RecipesDataBase): RecipesDao {
+        return database.recipesDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(
+        @ApplicationContext context: Context
+    ): RecipesDataBase {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            RecipesDataBase::class.java,
+            "recipes_database.db"
+        ).build()
+    }
 }
 

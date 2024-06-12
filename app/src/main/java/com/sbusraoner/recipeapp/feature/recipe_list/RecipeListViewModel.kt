@@ -2,7 +2,7 @@ package com.sbusraoner.recipeapp.feature.recipe_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sbusraoner.recipeapp.data.network.SpoonacularRepository
+import com.sbusraoner.recipeapp.data.SpoonacularRepository
 import com.sbusraoner.recipeapp.models.Result
 import com.sbusraoner.recipeapp.utils.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel

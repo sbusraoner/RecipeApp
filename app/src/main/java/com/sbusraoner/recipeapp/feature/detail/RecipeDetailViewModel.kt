@@ -1,12 +1,14 @@
 package com.sbusraoner.recipeapp.feature.detail
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sbusraoner.recipeapp.data.network.DetailRootResponse
-import com.sbusraoner.recipeapp.data.network.SpoonacularRepository
-import com.sbusraoner.recipeapp.models.Result
+import com.sbusraoner.recipeapp.data.source.network.DetailRootResponse
+import com.sbusraoner.recipeapp.data.SpoonacularRepository
 import com.sbusraoner.recipeapp.utils.ApiResult
+import com.sbusraoner.recipeapp.utils.isInternetAvailable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -18,18 +20,20 @@ data class RecipeDetailState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val errorMessage: String? = null,
-    val recipeModel: DetailRootResponse? = null
+    val recipeModel: DetailRootResponse? = null,
+    val isFavorite: Boolean = false
 )
 
 @HiltViewModel
 class RecipeDetailViewModel @Inject constructor(
-    private val repository: SpoonacularRepository
+    private val repository: SpoonacularRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(RecipeDetailState())
     val uiState: StateFlow<RecipeDetailState> = _uiState
 
-    fun getRecipeWithID(id:Int) {
-        val internetOnline = true
+    fun getRecipeWithID(id: Int) {
+        val internetOnline = isInternetAvailable(context)
 
         viewModelScope.launch {
             _uiState.update { state ->
@@ -68,10 +72,36 @@ class RecipeDetailViewModel @Inject constructor(
                         }
                     }
                 }
+            } else {
+                viewModelScope.launch {
+                    repository.getDetailWithIdFromLocal(id).collect { networkData ->
+                        _uiState.value = RecipeDetailState(
+                            isLoading = false,
+                            isError = false,
+                            errorMessage = null,
+                            recipeModel = networkData
+                        )
+                    }
+                }
             }
 
         }
-
     }
-
+    fun insertRecipes(recipes: DetailRootResponse) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    isLoading = true,
+                    isFavorite = false
+                )
+            }
+            repository.insertFavoriteRecipe(recipes)
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    isFavorite = true
+                )
+            }
+        }
+    }
 }

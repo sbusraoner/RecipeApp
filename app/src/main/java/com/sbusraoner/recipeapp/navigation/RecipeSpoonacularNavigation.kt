@@ -11,6 +11,7 @@ object RecipeAppDestination {
     const val RECIPE_LIST = "recipe_list/{type}"
     const val FAVORITE_SCREEN = "favorite_screen"
     const val SEARCH_SCREEN = "search_screen"
+
 }
 
 class RecipeSpoonacularNavigationActions(private val navController: NavHostController) {

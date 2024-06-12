@@ -117,6 +117,9 @@ dependencies {
     //coil
     implementation(libs.coil)
 
+    // jsoup HTML parser library @ https://jsoup.org/
+    implementation ("org.jsoup:jsoup:1.10.3")
+
 }
 
 

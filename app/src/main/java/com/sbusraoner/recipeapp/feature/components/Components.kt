@@ -3,6 +3,7 @@ package com.sbusraoner.recipeapp.feature.components
 import com.sbusraoner.recipeapp.R
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,6 +23,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,6 +34,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -73,15 +79,30 @@ fun Header() {
 @Composable
 fun MySearchBar(onClick : () -> Unit) {
 
-    Text(text = "Search",
-        modifier = Modifier
+        Box(modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .clickable {
-                onClick()
-            },
-    )
+            .background(Color.LightGray)
+            .clip(RoundedCornerShape(10.dp))){
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ){
+
+                Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+
+                Text(text = "Search",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable {
+                            onClick()
+                        }
+                )
+            }
+        }
+
 }
 
 @Composable
@@ -112,13 +133,15 @@ fun CategoryGrid(onCategoryClick: (String) -> Unit) {
         Text(text = "All the recipes you are looking for are here!",modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.height(16.dp))
         val categories = listOf(
-            "Breakfast" to R.drawable.beef,
-            "Dinner" to R.drawable.pizza,
-            "Lunch" to R.drawable.makarna,
-            "Snack" to R.drawable.dessert,
-            "TeaTime" to R.drawable.beef,
-            "Pizza" to R.drawable.pizza,
-            "Dinner" to R.drawable.makarna,)
+            "Breakfast" to R.drawable.breakfast,
+            "Finger Food" to R.drawable.fingerfood,
+            "Snack" to R.drawable.snack,
+            "Dessert" to R.drawable.dessert,
+            "Salad" to R.drawable.salad,
+            "Drink" to R.drawable.drink,
+            "Sauce" to R.drawable.sauce,
+            "Soup" to R.drawable.soup,
+            )
 
         LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(8.dp)) {
             items(categories){category ->
@@ -133,15 +156,25 @@ fun CategoryGrid(onCategoryClick: (String) -> Unit) {
 fun CustomTopBar(
     text: String,
     navigationIcon: ImageVector,
-    onNavigationClick: () -> Unit) {
+    onNavigationClick: () -> Unit,
+    onFavoriteClick : () -> Unit) {
     TopAppBar(
-        modifier = Modifier.padding(),
+        modifier = Modifier.padding(10.dp),
         title = { Text(text = text,fontSize = 24.sp,fontWeight = FontWeight.Bold) },
         colors = TopAppBarDefaults.topAppBarColors(Color.White),
         navigationIcon = {
             IconButton(onClick = { onNavigationClick() }) {
                 Icon(imageVector = navigationIcon,
                     contentDescription = null)
+            }
+        },
+        actions = {
+            IconButton(onClick = { onFavoriteClick()}) {
+                Icon(Icons.Default.Favorite, contentDescription ="Favorite")
+            }
+            //Spacer(modifier = Modifier.height(0.dp))
+            IconButton(onClick = { }) {
+                Icon(Icons.Default.Notifications, contentDescription ="Search")
             }
         }
     )
@@ -174,13 +207,7 @@ fun RecipeListItem(recipe: Recipe) {
 fun RecipeList() {
 
     val recipeList = listOf(
-        Recipe("Beef", R.drawable.beef),
-        Recipe("Pizza",R.drawable.pizza),
-        Recipe("Dinner",R.drawable.makarna),
         Recipe("Dessert",R.drawable.dessert),
-        Recipe("Beef",R.drawable.beef),
-        Recipe("Pizza",R.drawable.pizza),
-        Recipe("Dinner",R.drawable.makarna),
         Recipe("Dessert",R.drawable.dessert),
     )
 
