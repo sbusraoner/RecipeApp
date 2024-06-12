@@ -18,6 +18,8 @@ roomCompiler = "2.6.1"
 roomKtx = "2.6.1"
 roomRuntime = "2.6.1"
 coil = "2.6.0"
+paging = "3.0.0"
+
 
 
 
@@ -50,6 +52,8 @@ gsonConverter = { group = "com.squareup.retrofit2", name = "converter-gson", ver
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 okHttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okHttp" }
 coil = {group = "io.coil-kt",name = "coil-compose",version.ref = "coil"}
+paging = {group = "androidx.paging", name = "paging-runtime-ktx"}
+
 
 
 [plugins]
