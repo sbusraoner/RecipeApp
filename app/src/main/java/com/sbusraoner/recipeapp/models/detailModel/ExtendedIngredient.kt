@@ -1,12 +1,8 @@
 package com.sbusraoner.recipeapp.models.detailModel
 
 
-import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
-import com.sbusraoner.recipeapp.data.source.local.Converter
 
 data class ExtendedIngredient(
     @PrimaryKey(autoGenerate = true)

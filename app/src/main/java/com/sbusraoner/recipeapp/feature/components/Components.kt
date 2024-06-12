@@ -4,13 +4,14 @@ import com.sbusraoner.recipeapp.R
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,15 +32,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,62 +43,45 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 
 
 @Composable
-fun Header() {
-
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically){
-        Text(
-            text = "Hi Food Lovers!",
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(10.dp),
-        )
-        Icon(imageVector = ImageVector.vectorResource(id = R.drawable.foodiconpx),
-            contentDescription = null,
-            modifier = Modifier.padding(10.dp),)
-    }
-
-}
-
-@Composable
-fun MySearchBar(onClick : () -> Unit) {
-
-        Box(modifier = Modifier
+fun CustomSearchBar(onClick : () -> Unit) {
+    Box(
+        modifier = Modifier
+            .padding(16.dp)
+            .background(Color(0xFFEBE0F2), shape = RoundedCornerShape(8.dp)) // Light purple background with rounded corners
+            .border(1.dp, Color(0xFF9575CD), shape = RoundedCornerShape(8.dp)) // Purple border
             .fillMaxWidth()
-            .padding(10.dp)
-            .background(Color.LightGray)
-            .clip(RoundedCornerShape(10.dp))){
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ){
-
-                Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
-
-                Text(text = "Search",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .clickable {
-                            onClick()
-                        }
-                )
+            .height(48.dp)
+            .clickable {
+                onClick()
             }
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .fillMaxHeight()
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search Icon",
+                tint = Color(0xFF5E5E5E) // Dark gray icon color
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Search",
+                color = Color(0xFF5E5E5E), // Dark gray text color
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+            )
         }
-
+    }
 }
 
 @Composable

@@ -40,8 +40,7 @@ class SpoonacularRepositoryImpl @Inject constructor(
         getRecipesWithMealTypeResponse.collect{ value ->
             when(value) {
                 is ApiResult.Success -> {
-                    //
-                    //  localDataSource.insertCharacters(value.data?.toLocal().orEmpty())
+                    //Local'e kayıt işlemleri
                 }
 
                 else -> {
@@ -58,9 +57,8 @@ class SpoonacularRepositoryImpl @Inject constructor(
         getRecipeWithIdResponse.collect {value ->
             when (value) {
                 is ApiResult.Success -> {
+                    //Local'e kayıt işlemleri
 
-                    // İlerde locale veriler burada kaydedilecek
-                    //  localDataSource.insertCharacters(value.data?.toLocal().orEmpty())
                 }
                 else -> {}
             }

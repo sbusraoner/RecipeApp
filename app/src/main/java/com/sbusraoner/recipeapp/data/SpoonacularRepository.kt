@@ -3,7 +3,6 @@ package com.sbusraoner.recipeapp.data
 
 import com.sbusraoner.recipeapp.data.source.network.DetailRootResponse
 import com.sbusraoner.recipeapp.data.source.network.RootResponse
-import com.sbusraoner.recipeapp.models.Result
 import com.sbusraoner.recipeapp.utils.ApiResult
 import kotlinx.coroutines.flow.Flow
 
