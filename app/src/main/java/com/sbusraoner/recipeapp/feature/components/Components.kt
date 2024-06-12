@@ -47,6 +47,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sbusraoner.recipeapp.ui.theme.topBarColor
 
 
 @Composable
@@ -138,9 +139,8 @@ fun CustomTopBar(
     onNavigationClick: () -> Unit,
     onFavoriteClick : () -> Unit) {
     TopAppBar(
-        modifier = Modifier.padding(10.dp),
-        title = { Text(text = text,fontSize = 24.sp,fontWeight = FontWeight.Bold) },
-        colors = TopAppBarDefaults.topAppBarColors(Color.White),
+        modifier = Modifier.padding(10.dp).background(topBarColor),
+        title = { Text(text = text,fontSize = 22.sp,fontWeight = FontWeight.Bold) },
         navigationIcon = {
             IconButton(onClick = { onNavigationClick() }) {
                 Icon(imageVector = navigationIcon,

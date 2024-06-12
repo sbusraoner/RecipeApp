@@ -59,7 +59,7 @@ fun FavoriteRecipeScreen(
                 title = {
                     Text(
                         text = "Favorite Recipe List",
-                        fontSize = 24.sp,
+                        fontSize = 22.sp,
                         fontWeight = FontWeight.Bold
                     )
                 },
