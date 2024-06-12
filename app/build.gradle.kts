@@ -120,6 +120,10 @@ dependencies {
     // jsoup HTML parser library @ https://jsoup.org/
     implementation ("org.jsoup:jsoup:1.10.3")
 
+    //paging3
+    implementation ("androidx.paging:paging-runtime-ktx:3.0.0")
+
+
 }
 
 
