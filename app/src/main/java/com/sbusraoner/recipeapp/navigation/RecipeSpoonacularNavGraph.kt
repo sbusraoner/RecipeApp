@@ -37,12 +37,6 @@ fun RecipeSpoonacularNavGraph(
     ) {
 
         composable(
-            route = RecipeAppDestination.SPLASH
-        ) {
-
-        }
-
-        composable(
             route = RecipeAppDestination.HOME
         ) {
             HomeScreen (

@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 
 
 object RecipeAppDestination {
-    const val SPLASH = "splash"
     const val HOME = "home"
     const val RECIPE_DETAIL = "recipe_detail/{id}"
     const val RECIPE_LIST = "recipe_list/{type}"
@@ -16,14 +15,6 @@ object RecipeAppDestination {
 
 class RecipeSpoonacularNavigationActions(private val navController: NavHostController) {
 
-    fun navigateToHome() {
-        navController.navigate(RecipeAppDestination.HOME) {
-            popUpTo(RecipeAppDestination.SPLASH) {
-                inclusive = true
-                saveState = true
-            }
-        }
-    }
 
     fun navigateToRecipeDetail(id: Int) {
         Log.v("SpoonacularNavigationActions", "navigateToRecipeDetail: $id")

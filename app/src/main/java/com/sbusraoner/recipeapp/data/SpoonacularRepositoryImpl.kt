@@ -41,7 +41,7 @@ class SpoonacularRepositoryImpl @Inject constructor(
             when(value) {
                 is ApiResult.Success -> {
                     //
-                    //  localDataSource.insertCharacters(value.data?.toLocal().orEmpty())
+
                 }
 
                 else -> {

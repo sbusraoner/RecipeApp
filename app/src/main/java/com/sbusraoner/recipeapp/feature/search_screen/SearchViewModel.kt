@@ -40,7 +40,6 @@ class SearchViewModel @Inject constructor(
                 repository.getSearchRecipe(query).collect { networkData ->
                     when (networkData) {
                         is ApiResult.Success -> {
-                            Log.d("Busbus","${networkData.data?.results?.size}")
                             // Do something with the data
                             _uiState.value = SearchState(
                                 isLoading = false,
