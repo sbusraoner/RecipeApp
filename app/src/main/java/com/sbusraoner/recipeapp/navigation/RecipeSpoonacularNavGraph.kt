@@ -67,7 +67,7 @@ fun RecipeSpoonacularNavGraph(
         composable(
             route = RecipeAppDestination.FAVORITE_SCREEN
         ) {
-            FavoriteRecipeScreen(navController = navController, onDeleteClick = {}) {
+            FavoriteRecipeScreen(navController = navController) {
                 navController.popBackStack()
             }
         }

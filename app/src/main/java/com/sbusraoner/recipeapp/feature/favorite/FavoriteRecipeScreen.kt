@@ -2,16 +2,15 @@ package com.sbusraoner.recipeapp.feature.favorite
 
 import android.util.Log
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -40,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,8 +47,7 @@ import coil.compose.AsyncImage
 fun FavoriteRecipeScreen(
     navController: NavController,
     viewModel: FavoriteRecipeViewModel = hiltViewModel(),
-    onDeleteClick: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     val state = viewModel.uiState.collectAsState()
 
@@ -58,20 +57,25 @@ fun FavoriteRecipeScreen(
 
     Scaffold(
         topBar = {
-           TopAppBar(
-               modifier = Modifier.padding(10.dp),
-               title = {
-                   Text(text = "Favorite Recipe List",
-                   fontSize = 24.sp,
-                   fontWeight = FontWeight.Bold) },
-               colors = TopAppBarDefaults.topAppBarColors(Color.White),
-               navigationIcon = {
-                   IconButton(onClick = { onBack() }) {
-                       Icon(imageVector = Icons.Default.ArrowBack,
-                           contentDescription = null)
-                   }
-               }
-           )
+            TopAppBar(
+                modifier = Modifier.padding(10.dp),
+                title = {
+                    Text(
+                        text = "Favorite Recipe List",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(Color.White),
+                navigationIcon = {
+                    IconButton(onClick = { onBack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
         }
     ) { paddingValues ->
         Box(
@@ -94,42 +98,56 @@ fun FavoriteRecipeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
+                        .padding(8.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
                     state.value.recipeModel?.forEach { recipe ->
                         Card(
                             modifier = Modifier
                                 .padding(8.dp)
-                                .fillMaxSize()
+                                .fillMaxWidth()
                                 .clickable {
                                     Log.e("BusraResponse", (recipe?.id ?: "bos").toString())
                                     navController.navigate("RECIPE_DETAIL/${recipe?.id}")
                                 },
                             shape = RoundedCornerShape(8.dp)
                         ) {
-                            Row(verticalAlignment = Alignment.CenterVertically){
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 Box(
                                     modifier = Modifier
                                         .padding(8.dp)
-                                        //--.size(100.dp)
-                                        .clip(RoundedCornerShape(8.dp))) {
-                                    AsyncImage(model = recipe?.image ?: "", contentDescription = "image",)
+                                        .clip(RoundedCornerShape(8.dp))
+
+                                ) {
+                                    AsyncImage(
+                                        model = recipe?.image ?: "",
+                                        contentDescription = "image",
+                                    )
                                 }
-                                Text(text = recipe?.title ?: "",
-                                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Light))
-                                //Spacer(modifier = Modifier.height(8.dp))
-                                IconButton(onClick = { viewModel.deleteFavoriteRecipe(recipe?.id ?: 0) }) {
-                                    Icon(imageVector = Icons.Default.Delete,contentDescription = null)
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    Text(
+                                        text = recipe?.title ?: "",
+                                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Light),
+                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+
+                                    Icon(imageVector = Icons.Default.Delete,
+                                        contentDescription = "Delete",
+                                        modifier = Modifier
+                                            .clickable {
+                                                viewModel.deleteFavoriteRecipe(recipe?.id ?: 0)
+                                            }
+                                            .align(Alignment.End))
 
                                 }
-
-
                             }
+
 
                         }
                     }
-                    state.value.errorMessage?.let{
-                        Log.e("BusraResponse",it ?: "error bos")
+                    state.value.errorMessage?.let {
+                        Log.e("BusraResponse", it ?: "error bos")
                     }
                 }
             }

@@ -7,23 +7,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -38,6 +33,7 @@ import coil.compose.AsyncImage
 import com.sbusraoner.recipeapp.feature.components.CustomTopBar
 
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeListScreen(
@@ -47,13 +43,12 @@ fun RecipeListScreen(
     onBack : () -> Unit,
     onFavoriteClick : () -> Unit)
 {
-
     val state = viewModel.uiState.collectAsState()
-
 
     LaunchedEffect(Unit) {
         viewModel.getRecipeWithMealType(type)
     }
+
     Scaffold(
         topBar = {
             CustomTopBar(
@@ -107,7 +102,6 @@ fun RecipeListScreen(
                                 Box(
                                     modifier = Modifier
                                         .padding(8.dp)
-                                        //.size(100.dp)
                                         .clip(RoundedCornerShape(8.dp))) {
                                     AsyncImage(model = recipe?.image ?: "", contentDescription = "image")
                                 }

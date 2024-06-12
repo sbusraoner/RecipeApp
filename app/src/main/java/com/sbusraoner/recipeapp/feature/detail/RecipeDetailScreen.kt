@@ -96,8 +96,8 @@ fun RecipeDetailScreen(
                     }
                 },
                     modifier = Modifier.size(56.dp) ) {
-                    Icon(imageVector =
-                    Icons.Filled.AddCircle,contentDescription = null)
+                    Icon(imageVector = Icons.Filled.AddCircle,contentDescription = null,modifier = Modifier.size(38.dp))
+
                 }
             }
         },
@@ -155,7 +155,7 @@ fun RecipeDetailScreen(
                             state.value.recipeModel?.ingredients?.forEach { ingredient ->
                                 Row(){
                                     Icon(imageVector = Icons.Sharp.KeyboardArrowRight,contentDescription = null)
-                                    Text(text = ingredient.aisle ?: "",
+                                    Text(text = ingredient.name ?: "",
                                         style = MaterialTheme.typography.bodyLarge)
 
                                 }
